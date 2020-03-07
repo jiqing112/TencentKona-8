@@ -14,13 +14,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: configure
-      run: sudo ./configure
+      run: su ./configure
     - name: make
-      run: sudo make
+      run: su make
     - name: make check
-      run: sudo make check
+      run: su make check
     - name: make distcheck
-      run: sudo make distcheck
+      run: su make distcheck
        
     - name: Upload artifact
       uses: actions/upload-artifact@master
