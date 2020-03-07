@@ -1,0 +1,30 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependence
+      run: sudo apt-get install libx11-dev libxext-dev libxrender-dev libxtst-dev libxt-dev libcups2-dev libasound2-dev openjdk-8-jdk
+    - name: Make configure executable
+      run: chmod +x ./configure
+    - name: configure
+      run: ./configure
+    - name: Make4.0+ compatible
+      run: sudo sed -i 's/WARNINGS_ARE_ERRORS = -Werror/# WARNINGS_ARE_ERRORS = -Werror/' ./hotspot/make/linux/makefiles/gcc.make
+    - name: make
+      run: make all
+    - name: Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: build
+        path: ./build
